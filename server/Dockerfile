@@ -1,10 +1,12 @@
-FROM node:latest
-WORKDIR /usr/app
-COPY package.json .
+FROM golang:1.14.2
 RUN apt-get update
-RUN npm install
-RUN npm install -g nodemon
-WORKDIR /usr/app/src
-COPY ./src .
+RUN apt-get install git
+WORKDIR /usr/app
+COPY . .
+RUN go get github.com/gorilla/handlers
+RUN go get github.com/gorilla/mux
+RUN go get github.com/go-sql-driver/mysql
+RUN go get -u github.com/cosmtrek/air
 EXPOSE 8080
-CMD [ "nodemon", "server.js" ]
+RUN touch .air.conf
+CMD ["air"]

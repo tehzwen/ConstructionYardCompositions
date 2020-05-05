@@ -13,21 +13,21 @@ services:
               target: /usr/app/public
         stdin_open: true
         depends_on: 
-            - nodebackend
-    nodebackend:
+            - gobackend
+    gobackend:
         build: ./server
         environment: 
             MYSQL_DB: host.docker.internal
             MYSQL_USER: dev
-            MYSQL_DATABASE: nodeapp
+            MYSQL_DATABASE: goapp
             MYSQL_PASSWORD: helloworld
             MYSQL_PORT: 3308
         ports:
             - "4500:8080"
         volumes: 
             - type: bind
-              source: ./server/src
-              target: /usr/app/src
+              source: ./server
+              target: /usr/app
         privileged: true
         depends_on: 
             - mysqlserver
@@ -35,6 +35,6 @@ services:
         build: ./mysqlserver
         environment: 
             MYSQL_ROOT_PASSWORD: helloworld
-            MYSQL_DATABASE: nodeapp
+            MYSQL_DATABASE: goapp
         ports:
             - "3308:3306"
