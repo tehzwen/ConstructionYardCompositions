@@ -1,5 +1,5 @@
 version: '3.4'
-services: 
+services:
     reactfrontend:
         build: ./reactfrontend
         ports:
@@ -13,24 +13,22 @@ services:
               target: /usr/app/public
         stdin_open: true
         depends_on: 
-            - nodebackend
-    nodebackend:
+            - springbackend
+    springbackend:
         build: ./server
         environment: 
-            MYSQL_DB: host.docker.internal
+            MYSQL_DB: mysqlserver
             MYSQL_USER: dev
-            MYSQL_DATABASE: nodeapp
+            MYSQL_DATABASE: app
             MYSQL_PASSWORD: helloworld
             MYSQL_PORT: 3308
         ports:
             - "4500:8080"
         volumes: 
             - type: bind
-              source: ./server/src
-              target: /usr/app/src
+            source: ./server/constructionyard
+            target: /usr/app/src
         privileged: true
-        depends_on: 
-            - mysqlserver
     mysqlserver:
         build: ./mysqlserver
         environment: 

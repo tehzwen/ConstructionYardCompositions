@@ -1,10 +1,7 @@
-FROM node:latest
+FROM openjdk:14
 WORKDIR /usr/app
-COPY package.json .
-RUN apt-get update
-RUN npm install
-RUN npm install -g nodemon
-WORKDIR /usr/app/src
-COPY ./src .
+COPY . .
 EXPOSE 8080
-CMD [ "nodemon", "server.js" ]
+WORKDIR /usr/app/constructionyard
+RUN chmod +x /usr/app/constructionyard/gradlew
+CMD [ "/usr/app/constructionyard/gradlew", "bootRun" ]
